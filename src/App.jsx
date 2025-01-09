@@ -21,9 +21,14 @@ function deriveActivePlayer(gameTurns) {
   return currentPlayer;
 
 }
+//////////////////////////////////////////////////////////////////
 
 function App() {
   const [gameTurns, setGameTurns] = useState([]);
+  const [players, setPlayers] = useState({
+    "X": "Player1",
+    "O": "Player2"
+  })
   const activePlayer = deriveActivePlayer(gameTurns)
 
   let gameBoard = [...initialGameBoard].map(array => [...array]);
@@ -72,18 +77,20 @@ function App() {
       <div id="game-container">
         <ol id="players" className="highlight-player">
           <Player
-            initialName="Player 1"
+            playerName= {players["X"]}
             symbol="X"
             isActive={activePlayer === 'X'}
+            setPlayers={setPlayers}
           />
           <Player
-            initialName="Player 2"
+            playerName={players["O"]}
             symbol="O"
             isActive={activePlayer === 'O'}
+            setPlayers={setPlayers}
           />
         </ol>
         {(winner || hasDraw) && 
-            <GameOver winner={winner} onRestart = {handleRestart}/>
+            <GameOver winner={players[winner]} onRestart = {handleRestart}/>
         }
         <GameBoard
           onSelectSquare={handleSelectSquare}
